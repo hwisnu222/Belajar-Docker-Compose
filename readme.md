@@ -13,10 +13,16 @@ untuk menjalankan image
 docker run <namaimage>
 ```
 
+membuat container
+
+```
+docker container create --name <image> -p port_host:port_container
+```
+
 menjalankan server nginx
 
 ```
-docker run -it --rm -d -p port_bind:port_image --name name-image image
+docker run -it --rm -d -p port_host:port_container --name name-image image
 
 contoh:
 
@@ -75,30 +81,20 @@ up : untuk membuat dan menjalankan container
 
 ### Menghentikan container
 
-untuk menghentikan terdapat dua cara yaitu dengan perintah **down** dan **down**
-
-down : digunakan untuk untuk mengahapus semua kontainer, network, images dan volumes(untuk menggunakkan perintah ini hati hati)
-
 stop : menghentikan service dari container
 
 ```
 docker-compose stop <nama image>
 
-apabila terdapat dua container yang berjalan bisa menggunakan perintah dibawah
+apabila terdapat banyak container yang berjalan bisa menggunakan perintah dibawah
 
-docker-compose stop <nama image 1> <nama image 2>
+docker-compose stop
 ```
 
 ## menjalankan container
 
 ```
-docker-compose start <nama image/container>
-
-atau juga misal ada 2 container yang ingin dijalankan
-
-gunankan perintah dibawah
-
-docker-compose start <nama image 1> <nama image 2>
+docker-compose start
 ```
 
 ## menghapus container
@@ -111,9 +107,42 @@ kemudian gunakkan perintah dibawah
 docker-compose rm <nama container/image>
 ```
 
+atau bisa juga menggunakkan **down**.
+
+dengan perintah ini semua network, volumes akan dibersihkan
+
+```
+docker-compose down
+```
+
 
 ## Menampilkan container yang berjalan
 
 ```
 docker-compose ps
-`
+```
+
+## Membersihkan sampah container
+
+untuk melihat storage yang tidak diperlukan, gunakkan perintah dibawah
+
+```
+docker system df
+
+makan nanti akan menampilkan size yang tidak digunakkan
+```
+
+kemudian untuk menghapusnya gunakkan perintah 
+
+```
+docker system prune
+
+
+untuk menghapus sekaligus volume yang tidak dipakai gunakkan perintah
+
+docker system prune -a --volumes
+
+maka semua volumes yang tidak dipakai akan dihapus
+```
+
+dengan menggunakkan perintah diatas makan semua image yang tidak digunakkan atau tidak dipakai oleh container lain akan dihapus
